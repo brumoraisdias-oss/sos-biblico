@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>SOS Bíblico & Códigos Divinos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .premium-blur {
+            backdrop-filter: blur(16px);
+            background-color: rgba(3, 7, 18, 0.85);
+        }
+
+        .glow-blue {
+            box-shadow: 0 -5px 30px -5px rgba(56, 189, 248, 0.15);
+        }
+
+        /* Breathing Animation */
+        @keyframes boxInhale {
+            0%, 100% { transform: scale(1); background-color: rgba(56, 189, 248, 0.15); }
+            25% { transform: scale(1.35); background-color: rgba(56, 189, 248, 0.3); }
+            50% { transform: scale(1.35); background-color: rgba(245, 158, 11, 0.2); }
+            75% { transform: scale(1); background-color: rgba(245, 158, 11, 0.05); }
+        }
+
+        .breathing-circle {
+            animation: boxInhale 16s infinite ease-in-out;
+        }
+
+        /* Prevents vertical elastic scroll issues on iOS */
+        html, body {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Scrollable area inside the app shell */
+        .app-content {
+            height: calc(100vh - 125px); /* Adjusted for header + footer height */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 flex flex-col h-screen justify-between select-none">
+
+    <!-- FIXED PREMIUM HEADER -->
+    <header class="border-b border-slate-900 premium-blur z-50 px-4 py-3 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/10">
+                <i data-lucide="cross" class="text-slate-950 w-4.5 h-4.5 fill-slate-950"></i>
+            </div>
+            <div>
+                <h1 class="text-xs font-extrabold tracking-wider text-amber-400 uppercase">Versículos que Curan</h1>
+                <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-widest">Alivio Inmediato Activo</p>
+            </div>
+        </div>
+
+        <!-- Ambient Sound Controller -->
+        <button onclick="toggleHealingSound()" class="flex items-center gap-2 bg-slate-900/90 border border-slate-800/80 px-3 py-1.5 rounded-full active:scale-95 transition-all">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" id="audio-pulse" style="display:none;"></span>
+            <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider" id="audio-status">432Hz</span>
+            <i data-lucide="play" class="w-3.5 h-3.5 text-amber-400 fill-amber-400" id="audio-icon"></i>
+        </button>
+    </header>
+
+    <!-- MAIN SCROLLABLE APP CONTENT CONTAINER -->
+    <main class="app-content px-4 py-4 space-y-4 flex-1">
+
+        <!-- TAB 1: SOS ALÍVIO IMEDIATO -->
+        <div id="tab-sos" class="tab-content hidden space-y-4">
+            <div class="space-y-1">
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-black tracking-widest bg-red-500/10 text-red-400 border border-red-500/20 uppercase">Intervención Rápida</span>
+                <h2 class="text-xl font-black text-slate-100">SOS Botón de Alivio</h2>
+                <p class="text-slate-400 text-xs">Selecciona abajo el dolor o sentimiento que necesitas calmar ahora:</p>
+            </div>
+
+            <!-- Mobile Grid Selection -->
+            <div class="grid grid-cols-2 gap-2.5">
+                <button onclick="activateSos('fear')" class="sos-btn flex flex-col items-center justify-center py-4 px-3 rounded-2xl border border-slate-900 bg-slate-900/40 hover:border-slate-800 active:bg-slate-900 transition gap-2">
+                    <span class="text-2xl">😨</span>
+                    <span class="text-xs font-bold text-slate-200">Miedo</span>
+                </button>
+                <button onclick="activateSos('panic')" class="sos-btn flex flex-col items-center justify-center py-4 px-3 rounded-2xl border border-slate-900 bg-slate-900/40 hover:border-slate-800 active:bg-slate-900 transition gap-2">
+                    <span class="text-2xl">⚡</span>
+                    <span class="text-xs font-bold text-slate-200">Pánico / Crisis</span>
+                </button>
+                <button onclick="activateSos('guilt')" class="sos-btn flex flex-col items-center justify-center py-4 px-3 rounded-2xl border border-slate-900 bg-slate-900/40 hover:border-slate-800 active:bg-slate-900 transition gap-2">
+                    <span class="text-2xl">😔</span>
+                    <span class="text-xs font-bold text-slate-200">Culpa / Angustia</span>
+                </button>
+                <button onclick="activateSos('future')" class="sos-btn flex flex-col items-center justify-center py-4 px-3 rounded-2xl border border-slate-900 bg-slate-900/40 hover:border-slate-800 active:bg-slate-900 transition gap-2">
+                    <span class="text-2xl">🔮</span>
+                    <span class="text-xs font-bold text-slate-200">Ansiedad / Futuro</span>
+                </button>
+                <button onclick="activateSos('insomnia')" class="sos-btn flex flex-col items-center justify-center py-4 px-3 rounded-2xl border border-slate-900 bg-slate-900/40 hover:border-slate-800 active:bg-slate-900 transition gap-2">
+                    <span class="text-2xl">🌌</span>
+                    <span class="text-xs font-bold text-slate-200">Insomnio</span>
+                </button>
+                <button onclick="activateSos('anger')" class="sos-btn flex flex-col items-center justify-center py-4 px-3 rounded-2xl border border-slate-900 bg-slate-900/40 hover:border-slate-800 active:bg-slate-900 transition gap-2">
+                    <span class="text-2xl">🔥</span>
+                    <span class="text-xs font-bold text-slate-200">Ira / Frustración</span>
+                </button>
+            </div>
+
+            <!-- Mobile Active SOS Response Display -->
+            <div id="sos-display" class="hidden flex flex-col bg-slate-900/50 border border-slate-900 p-5 rounded-2xl gap-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="space-y-3">
+                    <div class="flex items-center gap-1.5 text-amber-400">
+                        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                        <span class="text-[9px] font-black tracking-widest uppercase" id="sos-meta">CÓDIGO DE LA FE</span>
+                    </div>
+                    <h3 class="text-lg font-black italic text-slate-100 leading-snug" id="sos-verse">"No se inquieten por nada..."</h3>
+                    <p class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest" id="sos-ref">Filipenses 4:6</p>
+                    
+                    <div class="bg-slate-950 border border-slate-900 p-3 rounded-xl">
+                        <h4 class="text-[9px] font-extrabold text-amber-500 uppercase tracking-widest mb-1">Afirmar en Voz Alta</h4>
+                        <p class="text-xs font-medium text-slate-300 leading-relaxed" id="sos-affirmation">"Mi mente se aquieta ahora..."</p>
+                    </div>
+                </div>
+
+                <!-- Touch Breathing Interactive Bar -->
+                <div class="flex flex-col items-center justify-center border-t border-slate-900 pt-4 gap-3">
+                    <div class="relative w-28 h-28 flex items-center justify-center">
+                        <div class="absolute w-24 h-24 rounded-full breathing-circle opacity-30"></div>
+                        <div class="absolute w-16 h-16 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center">
+                            <span class="text-[10px] font-black text-amber-400 uppercase text-center" id="breath-text">Inhala</span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-500 text-center">Sincroniza tu respiración con la expansión del círculo.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: PROTOCOLO 15 MINUTOS -->
+        <div id="tab-protocolo" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="space-y-1">
+                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/20 uppercase">Anti-Crisis</span>
+                    <h2 class="text-xl font-black text-slate-100">Protocolo 15 Minutos</h2>
+                </div>
+                
+                <!-- Compact Mobile Timer Widget -->
+                <div class="flex items-center gap-2.5 bg-slate-900 border border-slate-850 py-1.5 px-3 rounded-xl">
+                    <div class="text-right">
+                        <div class="text-[14px] font-mono font-black text-amber-400" id="protocolo-time">15:00</div>
+                    </div>
+                    <button onclick="toggleProtocolTimer()" id="btn-play-protocolo" class="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-400 flex items-center justify-center transition active:scale-90">
+                        <i data-lucide="play" class="w-4 h-4 text-slate-950 fill-slate-950"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Safe Navigation Map of Phases -->
+            <div class="grid grid-cols-3 gap-1 bg-slate-900/60 p-1.5 rounded-xl border border-slate-900">
+                <div id="step-indicator-1" class="py-2 rounded-lg text-center transition">
+                    <span class="text-[9px] font-black text-slate-500 block" id="step-badge-1">FASE 1</span>
+                    <h4 class="text-[9px] font-bold text-slate-400 mt-0.5">Vaciar</h4>
+                </div>
+                <div id="step-indicator-2" class="py-2 rounded-lg text-center transition">
+                    <span class="text-[9px] font-black text-slate-500 block" id="step-badge-2">FASE 2</span>
+                    <h4 class="text-[9px] font-bold text-slate-400 mt-0.5">Absorber</h4>
+                </div>
+                <div id="step-indicator-3" class="py-2 rounded-lg text-center transition">
+                    <span class="text-[9px] font-black text-slate-500 block" id="step-badge-3">FASE 3</span>
+                    <h4 class="text-[9px] font-bold text-slate-400 mt-0.5">Reprogramar</h4>
+                </div>
+            </div>
+
+            <!-- Interactive App Phase Panel -->
+            <div id="phase-card" class="bg-slate-900/40 border border-slate-900 p-4 rounded-2xl space-y-4">
+                <!-- Injected Dynamically -->
+            </div>
+
+            <!-- Navigation Bar for Mobile Controls -->
+            <div class="flex gap-2">
+                <button onclick="prevPhase()" class="flex-1 py-3 border border-slate-900 hover:bg-slate-900 rounded-xl text-xs font-bold transition active:scale-95 text-slate-300">Anterior</button>
+                <button onclick="nextPhase()" class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-xl text-xs font-bold transition active:scale-95">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- TAB 3: OS 7 CÓDIGOS -->
+        <div id="tab-codigos" class="tab-content hidden space-y-4">
+            <div class="space-y-1">
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-black tracking-widest bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 uppercase">Códigos Divinos</span>
+                <h2 class="text-xl font-black text-slate-100">Los 7 Activadores</h2>
+                <p class="text-xs text-slate-400">Presiona un código para estudiar y completar la aplicación:</p>
+            </div>
+
+            <!-- Slider of codes on mobile horizontal -->
+            <div class="flex gap-1.5 overflow-x-auto pb-2 scrollbar-none snap-x shrink-0">
+                <button onclick="viewCode(1)" id="code-tab-1" class="code-selector py-2 px-3 shrink-0 rounded-xl border text-xs font-bold snap-center">Fe</button>
+                <button onclick="viewCode(2)" id="code-tab-2" class="code-selector py-2 px-3 shrink-0 rounded-xl border text-xs font-bold snap-center">Palabra</button>
+                <button onclick="viewCode(3)" id="code-tab-3" class="code-selector py-2 px-3 shrink-0 rounded-xl border text-xs font-bold snap-center">Gratitud</button>
+                <button onclick="viewCode(4)" id="code-tab-4" class="code-selector py-2 px-3 shrink-0 rounded-xl border text-xs font-bold snap-center">Amor</button>
+                <button onclick="viewCode(5)" id="code-tab-5" class="code-selector py-2 px-3 shrink-0 rounded-xl border text-xs font-bold snap-center">Perdón</button>
+                <button onclick="viewCode(6)" id="code-tab-6" class="code-selector py-2 px-3 shrink-0 rounded-xl border text-xs font-bold snap-center">Siembra</button>
+                <button onclick="viewCode(7)" id="code-tab-7" class="code-selector py-2 px-3 shrink-0 rounded-xl border text-xs font-bold snap-center">Propósito</button>
+            </div>
+
+            <!-- Code Detail View optimized for Touch Screen -->
+            <div id="code-detail-box" class="bg-slate-900/40 border border-slate-900 p-5 rounded-2xl space-y-4">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-black tracking-widest text-indigo-400 uppercase" id="code-num">CÓDIGO 01</span>
+                        <span class="w-1 h-1 rounded-full bg-slate-700"></span>
+                        <span class="text-[10px] text-slate-500 font-bold" id="code-ref">Biblia</span>
+                    </div>
+                    <h3 class="text-lg font-black text-slate-100" id="code-title">Fe</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed text-justify" id="code-explanation">Explicación...</p>
+
+                    <!-- Affirmation Card -->
+                    <div class="p-3 bg-indigo-500/5 border border-indigo-500/10 rounded-xl">
+                        <span class="text-[8px] font-black text-indigo-400 uppercase tracking-widest block">Afirmación Espiritual</span>
+                        <p class="text-xs font-bold italic text-slate-200 mt-0.5" id="code-affirmation">"Declaro..."</p>
+                    </div>
+                </div>
+
+                <!-- Custom Mobile Interactive Application Side -->
+                <div class="bg-slate-950 border border-slate-900 p-4 rounded-xl space-y-4">
+                    <div class="space-y-1">
+                        <h4 class="text-xs font-bold text-amber-500 flex items-center gap-1.5">
+                            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                            Aplicación Práctica Activa
+                        </h4>
+                        <p class="text-[10px] text-slate-400" id="code-practical-desc">Cada mañana...</p>
+                    </div>
+                    
+                    <div id="code-practical-form" class="space-y-3">
+                        <!-- Inputs loaded dynamically -->
+                    </div>
+
+                    <button onclick="saveCodeApplication()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition active:scale-95">
+                        Guardar Actividad Práctica
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: MENTIRA VS VERDADE -->
+        <div id="tab-reprogramador" class="tab-content hidden space-y-4">
+            <div class="space-y-1">
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-black tracking-widest bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 uppercase">Mentalidad</span>
+                <h2 class="text-xl font-black text-slate-100">Mentiras vs Verdades</h2>
+                <p class="text-xs text-slate-400">Reemplaza pensamientos destructivos inmediatamente por verdades eternas:</p>
+            </div>
+
+            <!-- Single Column input specifically styled for mobile without double panels -->
+            <div class="bg-slate-900/40 border border-slate-900 p-4 rounded-2xl space-y-3.5">
+                <div class="space-y-1">
+                    <h3 class="text-xs font-bold text-red-400 flex items-center gap-1.5">
+                        <i data-lucide="skull" class="w-3.5 h-3.5"></i>
+                        La mentira que el miedo susurra:
+                    </h3>
+                    <p class="text-[10px] text-slate-400">Escribe la mentira dañina que está bloqueando tu mente ahora.</p>
+                </div>
+                
+                <!-- Font size set to 16px to prevent iOS auto-zoom inside safari inputs -->
+                <textarea id="mentira-input" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-base md:text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-red-500 transition" placeholder="Ejemplo: 'Voy a entrar en colapso y nadie me va a ayudar'"></textarea>
+                
+                <button onclick="dissolveLie()" class="w-full py-3.5 bg-red-600 active:bg-red-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 active:scale-95">
+                    <i data-lucide="zap-off" class="w-4 h-4"></i>
+                    Desintegrar Pensamiento & Ver Verdad
+                </button>
+            </div>
+
+            <!-- Mobile Targeted Truth Display (Fades in dynamically) -->
+            <div id="solution-container" class="hidden bg-slate-900/40 border border-slate-900 p-4 rounded-2xl space-y-3">
+                <h3 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                    La Verdad Libertadora Revelada:
+                </h3>
+                
+                <div id="truth-display" class="space-y-3">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Saved active thoughts logs list -->
+            <div class="space-y-2.5">
+                <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Mis Verdades Activas</h3>
+                <div id="truths-log" class="space-y-2">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: DIÁRIO DE GRATIDÃO -->
+        <div id="tab-diario" class="tab-content hidden space-y-4">
+            <div class="space-y-1">
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-black tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase">Agradecimiento</span>
+                <h2 class="text-xl font-black text-slate-100">Farmacia de la Gratitud</h2>
+                <p class="text-xs text-slate-400">Entrena tu cerebro registrando 3 motivos sencillos para agradecer hoy:</p>
+            </div>
+
+            <!-- Compact mobile input row -->
+            <div class="bg-slate-900/40 border border-slate-900 p-4 rounded-2xl space-y-3">
+                <div class="space-y-2.5">
+                    <input type="text" id="gratitude-1" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-2.5 text-base md:text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Agradecimiento #1 (Ej: el aire que respiro)">
+                    <input type="text" id="gratitude-2" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-2.5 text-base md:text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Agradecimiento #2 (Ej: un vaso de agua fría)">
+                    <input type="text" id="gratitude-3" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-2.5 text-base md:text-xs text-slate-200 focus:outline-none focus:border-emerald-500" placeholder="Agradecimiento #3 (Ej: mi cuerpo funcionando)">
+                </div>
+                
+                <button onclick="saveGratitude()" class="w-full py-3 bg-emerald-600 active:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 active:scale-95">
+                    <i data-lucide="bookmark" class="w-4 h-4"></i>
+                    Registrar en el Mural de Gratitud
+                </button>
+            </div>
+
+            <!-- Interactive Wall History of Gratitudes -->
+            <div class="space-y-2">
+                <h3 class="text-xs font-bold text-slate-400">Mi Historial de Gratitud</h3>
+                <div id="gratitude-wall" class="space-y-2">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FIXED NATIVE BOTTOM NAVIGATION TABBAR -->
+    <footer class="border-t border-slate-900 premium-blur py-2 px-1 z-50 shrink-0 select-none glow-blue">
+        <div class="grid grid-cols-5 gap-1 max-w-md mx-auto">
+            
+            <button onclick="switchTab('sos')" id="btn-tab-sos" class="tab-btn flex flex-col items-center justify-center py-2 rounded-xl transition text-slate-500 active:scale-95">
+                <i data-lucide="heart-pulse" class="w-5 h-5"></i>
+                <span class="text-[9px] font-extrabold mt-1">SOS</span>
+            </button>
+
+            <button onclick="switchTab('protocolo')" id="btn-tab-protocolo" class="tab-btn flex flex-col items-center justify-center py-2 rounded-xl transition text-slate-500 active:scale-95">
+                <i data-lucide="timer" class="w-5 h-5"></i>
+                <span class="text-[9px] font-extrabold mt-1">Protocolo</span>
+            </button>
+
+            <button onclick="switchTab('codigos')" id="btn-tab-codigos" class="tab-btn flex flex-col items-center justify-center py-2 rounded-xl transition text-slate-500 active:scale-95">
+                <i data-lucide="key-round" class="w-5 h-5"></i>
+                <span class="text-[9px] font-extrabold mt-1">7 Códigos</span>
+            </button>
+
+            <button onclick="switchTab('reprogramador')" id="btn-tab-reprogramador" class="tab-btn flex flex-col items-center justify-center py-2 rounded-xl transition text-slate-500 active:scale-95">
+                <i data-lucide="brain-cog" class="w-5 h-5"></i>
+                <span class="text-[9px] font-extrabold mt-1">Mente</span>
+            </button>
+
+            <button onclick="switchTab('diario')" id="btn-tab-diario" class="tab-btn flex flex-col items-center justify-center py-2 rounded-xl transition text-slate-500 active:scale-95">
+                <i data-lucide="book-heart" class="w-5 h-5"></i>
+                <span class="text-[9px] font-extrabold mt-1">Gratitud</span>
+            </button>
+
+        </div>
+        
+        <!-- Danger Reset Controller accessible at extreme bottom edge safely -->
+        <div class="flex justify-center mt-1.5">
+            <button onclick="clearAllData()" class="text-[8px] text-slate-600 hover:text-red-500 transition-all">Limpiar Datos Locales</button>
+        </div>
+    </footer>
+
+    <!-- JS Logic Scripts -->
+    <script>
+        // Database of Verses aligned to user selections
+        const SOS_DATABASE = {
+            fear: {
+                meta: 'CÓDIGO DE LA FE',
+                verse: '"No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios que te esfuerzo; siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia."',
+                ref: 'Isaías 41:10',
+                affirmation: 'Dios está conmigo en este lugar ahora mismo. No estoy solo. Mis latidos se calman porque Él sostiene mi futuro.'
+            },
+            panic: {
+                meta: 'REPROGRAMACIÓN EMOCIONAL',
+                verse: '"Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio."',
+                ref: '2 Timoteo 1:7',
+                affirmation: 'La ansiedad no me define. Tengo una mente sana, equilibrada y siento cómo los músculos de mi cuerpo se relajan ahora.'
+            },
+            guilt: {
+                meta: 'CÓDIGO DEL PERDÓN',
+                verse: '"Ahora, pues, ninguna condenación hay para los que están en Cristo Jesús..."',
+                ref: 'Romanos 8:1',
+                affirmation: 'Mi pasado ya fue pagado y limpiado. Decido aceptar el perdón de Dios y libero paz sobre todos mis errores.'
+            },
+            future: {
+                meta: 'CÓDIGO DEL PROPÓSITO',
+                verse: '"Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis."',
+                ref: 'Jeremías 29:11',
+                affirmation: 'Los planes del Señor para mí son de bienestar y paz. Entrego el mañana en manos de Aquel que ya está en mi futuro.'
+            },
+            insomnia: {
+                meta: 'CÓDIGO DE LA PALABRA',
+                verse: '"En paz me acostaré, y asimismo dormiré; porque solo tú, Jehová, me haces vivir confiado."',
+                ref: 'Salmo 4:8',
+                affirmation: 'Mi mente deja de planificar por hoy. Cierro mis ojos sabiendo que Dios cuida de todo mientras yo descanso.'
+            },
+            anger: {
+                meta: 'CÓDIGO DEL AMOR',
+                verse: '"La blanda respuesta quita la ira; mas la palabra áspera hace subir el furor."',
+                ref: 'Provérbios 15:1',
+                affirmation: 'Mis palabras hoy serán semillas de vida. Elijo el silencio protector y respondo con mansedumbre.'
+            }
+        };
+
+        const CODES_DATABASE = {
+            1: {
+                num: 'CÓDIGO 01',
+                title: 'El Código de la Fe',
+                ref: 'Página 1',
+                explanation: 'La fe es el cimiento de toda relación con Dios. Es creer incluso cuando tus ojos no ven, y caminar aunque no tengas todas las respuestas. Es en los momentos de incertidumbre cuando la fe se convierte en tu brújula espiritual. Cada paso que das confiando en la promesa, es una declaración de que Dios es más real que tus circunstancias.',
+                affirmation: '"Camino por fe, no por vista. Mi confianza está en Dios, no en las circunstancias."',
+                practicalDesc: 'Escribe tres áreas donde necesitas fe y ora cada día por ellas durante una semana.',
+                inputs: ['Área de Fe 1 (ej: Finanzas)', 'Área de Fe 2 (ej: Crisis de Ansiedad)', 'Área de Fe 3 (ej: Relaciones Familiares)']
+            },
+            2: {
+                num: 'CÓDIGO 02',
+                title: 'El Código de la Palabra',
+                ref: 'Página 3',
+                explanation: 'Tus palabras son semillas espirituales que crean atmósferas. Cuando hablas, liberas poder. Dios creó el mundo con Su palabra, y tú, hecho a Su imagen, también puedes construir o destruir con lo que dices. Muchos oran por milagros pero hablan derrota.',
+                affirmation: '"Declaro palabras de vida, poder y bendición. Mi boca se convierte en instrumento del Reino."',
+                practicalDesc: 'Durante tres días, observa tu lenguaje. Cada vez que digas algo negativo, corrígelo con fe.',
+                inputs: ['Lo que suelo decir negativo (ej: "No puedo más")', 'Sustitución con Declaración de Fe (ej: "Todo lo puedo en Cristo")']
+            },
+            3: {
+                num: 'CÓDIGO 03',
+                title: 'El Código de la Gratitud',
+                ref: 'Página 4',
+                explanation: 'La gratitud no cambia tus circunstancias, cambia tu frecuencia espiritual. Cuando agradeces, reconoces que Dios está en control, incluso en lo que no entiendes. La gratitud abre puertas que la queja mantiene cerradas.',
+                affirmation: '"Mi corazón agradecido abre los cielos sobre mi vida. Doy gracias en todo."',
+                practicalDesc: 'Escribe cada noche tres cosas por las cuales estás agradecido, incluso pequeñas.',
+                inputs: ['Agradecimiento Pequeño 1', 'Agradecimiento Pequeño 2', 'Agradecimiento Pequeño 3']
+            },
+            4: {
+                num: 'CÓDIGO 04',
+                title: 'El Código del Amor',
+                ref: 'Página 6',
+                explanation: 'El amor no es un sentimiento, es una decisión espiritual. Dios no ama porque lo merezcamos, ama porque es Su naturaleza. Cuando eliges amar, eliges reflejar a Dios. El amor verdadero cubre faltas, sana heridas y disuelve la oscuridad.',
+                affirmation: '"Elijo amar sin condiciones. Donde hay amor, Dios habita."',
+                practicalDesc: 'Haz un acto de amor diario sin esperar reconocimiento (palabra amable, ayuda silenciosa).',
+                inputs: ['¿Para quién harás el acto de amor?', '¿Qué acción de servicio o aliento realizarás?']
+            },
+            5: {
+                num: 'CÓDIGO 05',
+                title: 'El Código del Perdón',
+                ref: 'Página 7',
+                explanation: 'El perdón no es olvidar, es liberar. Cuando no perdonas, te encadenas al pasado. El perdón rompe el ciclo del dolor y abre espacio para la sanidad. No perdonas porque el otro lo merezca, sino porque tú mereces paz.',
+                affirmation: '"Libero y perdono. Elijo la paz sobre el resentimiento."',
+                practicalDesc: 'Haz una lista de personas que aún no has perdonado y ora entregándolas a Dios.',
+                inputs: ['Persona o Situación para Soltar', '¿Qué paz interior me estaba robando este rencor?']
+            },
+            6: {
+                num: 'CÓDIGO 06',
+                title: 'El Código de la Siembra y la Cosecha',
+                ref: 'Página 8',
+                explanation: 'La vida es un campo espiritual. Cada acción, palabra y pensamiento es una semilla que producirá fruto. Si siembras amor, cosechas amor; si siembras queja, cosechas frustración. Dios diseñó esto como un principio de justicia divina.',
+                affirmation: '"Lo que siembro con amor, lo cosecharé con gozo."',
+                practicalDesc: 'Haz cada día una siembra intencional: una palabra de ánimo, una ayuda o una oración.',
+                inputs: ['Semilla Intencional del Día', '¿Quién se beneficiará de esta semilla?']
+            },
+            7: {
+                num: 'CÓDIGO 07',
+                title: 'O Código del Propósito',
+                ref: 'Página 10',
+                explanation: 'Nada en tu vida es casualidad. Dios te creó con un propósito eterno y te colocó en el tiempo exacto para cumplirlo. Tu historia, tus talentos y hasta tus heridas forman parte de un diseño divino. Vivir sin propósito es existir sin dirección.',
+                affirmation: '"Camino en el propósito que Dios diseñó para mí."',
+                practicalDesc: 'Ora pidiendo claridad de propósito. Pregunta a Dios: "¿Qué esperas de mí en esta etapa?"',
+                inputs: ['Dones o aprendizajes de dolor útiles para otros', '¿A quién puedo animar hoy con mi historia?']
+            }
+        };
+
+        const REPROGRAMMING_DATABASE = [
+            { key: 'fallar', truth: '"Todo lo puedo en Cristo que me fortalece."', ref: 'Filipenses 4:13' },
+            { key: 'ansiedad', truth: '"Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros."', ref: '1 Pedro 5:7' },
+            { key: 'solo', truth: '"Y Jehová va delante de ti; él estará contigo, no te dejará, ni te desamparará..."', ref: 'Deuteronomio 31:8' },
+            { key: 'morir', truth: '"No moriré, sino que viviré, y contaré las obras de JAH."', ref: 'Salmo 118:17' },
+            { key: 'futuro', truth: '"Encomienda a Jehová tu camino, y confía en él; y él hará."', ref: 'Salmo 37:5' }
+        ];
+
+        // Web Audio Calming Frequency Generator (Solfeggio 432Hz Ambient Pad)
+        let audioCtx = null;
+        let osc1 = null;
+        let osc2 = null;
+        let gainNode = null;
+        let filter = null;
+        let isAudioPlaying = false;
+
+        function toggleHealingSound() {
+            const btnIcon = document.getElementById('audio-icon');
+            const statusText = document.getElementById('audio-status');
+            const pulse = document.getElementById('audio-pulse');
+
+            if (!isAudioPlaying) {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                osc1 = audioCtx.createOscillator();
+                osc2 = audioCtx.createOscillator();
+                gainNode = audioCtx.createGain();
+                filter = audioCtx.createBiquadFilter();
+
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(108, audioCtx.currentTime); // Deep octave of 432
+                
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(108.5, audioCtx.currentTime); // chorus beat effect
+
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(250, audioCtx.currentTime);
+
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 3);
+
+                osc1.connect(filter);
+                osc2.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                osc1.start();
+                osc2.start();
+
+                isAudioPlaying = true;
+                btnIcon.setAttribute('data-lucide', 'square');
+                statusText.innerText = 'Activo';
+                pulse.style.display = 'inline-block';
+            } else {
+                if (gainNode) {
+                    gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.2);
+                    setTimeout(() => {
+                        try {
+                            osc1.stop();
+                            osc2.stop();
+                        } catch(e) {}
+                    }, 1300);
+                }
+                isAudioPlaying = false;
+                btnIcon.setAttribute('data-lucide', 'play');
+                statusText.innerText = '432Hz';
+                pulse.style.display = 'none';
+            }
+            lucide.createIcons();
+        }
+
+        // Global State & Navigation
+        let activeTab = 'sos';
+        let currentCode = 1;
+
+        // Protocol Timer State
+        let protocolTimer = null;
+        let protocolSeconds = 15 * 60; 
+        let isProtocolRunning = false;
+        let currentPhase = 1;
+
+        function switchTab(tabId) {
+            // Hide all tab screens
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('text-amber-400');
+                el.classList.add('text-slate-500');
+            });
+
+            // Show current screen
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-tab-${tabId}`);
+            activeBtn.classList.remove('text-slate-500');
+            activeBtn.classList.add('text-amber-400');
+
+            activeTab = tabId;
+
+            // Trigger specific page initiators
+            if (tabId === 'codigos') {
+                viewCode(currentCode);
+            } else if (tabId === 'protocolo') {
+                updateProtocolPhaseUI();
+            } else if (tabId === 'reprogramador') {
+                renderSavedTruths();
+            } else if (tabId === 'diario') {
+                renderGratitudes();
+            }
+        }
+
+        // SOS Activation Logic
+        function activateSos(painId) {
+            document.querySelectorAll('.sos-btn').forEach(btn => btn.classList.remove('border-red-500/50', 'bg-red-500/5'));
+            
+            const buttons = document.querySelectorAll('.sos-btn');
+            const mapping = ['fear', 'panic', 'guilt', 'future', 'insomnia', 'anger'];
+            const targetIndex = mapping.indexOf(painId);
+            if(targetIndex !== -1) {
+                buttons[targetIndex].classList.add('border-red-500/50', 'bg-red-500/5');
+            }
+
+            const data = SOS_DATABASE[painId];
+            document.getElementById('sos-meta').innerText = data.meta;
+            document.getElementById('sos-verse').innerText = data.verse;
+            document.getElementById('sos-ref').innerText = data.ref;
+            document.getElementById('sos-affirmation').innerText = data.affirmation;
+
+            document.getElementById('sos-display').classList.remove('hidden');
+
+            startBreathingCircleGuide();
+        }
+
+        let breathInterval = null;
+        function startBreathingCircleGuide() {
+            if(breathInterval) clearInterval(breathInterval);
+            const phases = [
+                { text: 'Inhala...', duration: 4 },
+                { text: 'Retén...', duration: 4 },
+                { text: 'Exhala...', duration: 4 },
+                { text: 'Espera...', duration: 4 }
+            ];
+            let currentIdx = 0;
+            let stepSec = 0;
+
+            const labelEl = document.getElementById('breath-text');
+            labelEl.innerText = phases[0].text;
+
+            breathInterval = setInterval(() => {
+                stepSec++;
+                if(stepSec >= phases[currentIdx].duration) {
+                    stepSec = 0;
+                    currentIdx = (currentIdx + 1) % phases.length;
+                    labelEl.innerText = phases[currentIdx].text;
+                }
+            }, 1000);
+        }
+
+        // 15 Min Protocol Controller logic
+        function toggleProtocolTimer() {
+            const playBtn = document.getElementById('btn-play-protocolo');
+            if (!isProtocolRunning) {
+                isProtocolRunning = true;
+                playBtn.innerHTML = '<i data-lucide="pause" class="w-4 h-4 text-slate-950 fill-slate-950"></i>';
+                protocolTimer = setInterval(() => {
+                    if (protocolSeconds > 0) {
+                        protocolSeconds--;
+                        updateTimerUI();
+                        autoPhaseSwitchCheck();
+                    } else {
+                        clearInterval(protocolTimer);
+                        isProtocolRunning = false;
+                        playBtn.innerHTML = '<i data-lucide="play" class="w-4 h-4 text-slate-950 fill-slate-950"></i>';
+                        showSuccessToast("¡Protocolo completado! ¡Tu mente está en paz!");
+                    }
+                }, 1000);
+            } else {
+                isProtocolRunning = false;
+                clearInterval(protocolTimer);
+                playBtn.innerHTML = '<i data-lucide="play" class="w-4 h-4 text-slate-950 fill-slate-950"></i>';
+            }
+            lucide.createIcons();
+        }
+
+        function updateTimerUI() {
+            const minutes = Math.floor(protocolSeconds / 60);
+            const seconds = protocolSeconds % 60;
+            document.getElementById('protocolo-time').innerText = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function autoPhaseSwitchCheck() {
+            let idealPhase = 1;
+            if (protocolSeconds < 5 * 60) {
+                idealPhase = 3;
+            } else if (protocolSeconds < 12 * 60) {
+                idealPhase = 2;
+            }
+
+            if (idealPhase !== currentPhase) {
+                currentPhase = idealPhase;
+                updateProtocolPhaseUI();
+            }
+        }
+
+        // Custom Toast System
+        function showSuccessToast(message) {
+            showToast(message, "success");
+        }
+
+        function showToast(message, type = "success") {
+            const containerId = 'toast-container';
+            let container = document.getElementById(containerId);
+            if (!container) {
+                container = document.createElement('div');
+                container.id = containerId;
+                container.className = "fixed bottom-18 left-4 right-4 z-50 flex flex-col gap-2 max-w-md mx-auto pointer-events-none";
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            const bgClass = type === "success" ? "bg-slate-900 border-emerald-500/40 text-emerald-400" : "bg-slate-900 border-amber-500/40 text-amber-400";
+            const icon = type === "success" ? "check-circle" : "alert-triangle";
+            
+            toast.className = `flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border ${bgClass} shadow-2xl pointer-events-auto transition duration-300 transform translate-y-2`;
+            toast.innerHTML = `
+                <i data-lucide="${icon}" class="w-4 h-4 shrink-0"></i>
+                <span class="text-[11px] font-extrabold">${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2');
+                toast.classList.add('opacity-0', 'translate-y-[-5px]');
+                setTimeout(() => toast.remove(), 2500);
+            }, 2500);
+        }
+
+        function prevPhase() {
+            if (currentPhase > 1) {
+                currentPhase--;
+                if (currentPhase === 1) protocolSeconds = 15 * 60;
+                if (currentPhase === 2) protocolSeconds = 12 * 60;
+                updateProtocolPhaseUI();
+                updateTimerUI();
+            }
+        }
+
+        function nextPhase() {
+            if (currentPhase < 3) {
+                currentPhase++;
+                if (currentPhase === 2) protocolSeconds = 12 * 60;
+                if (currentPhase === 3) protocolSeconds = 5 * 60;
+                updateProtocolPhaseUI();
+                updateTimerUI();
+            }
+        }
+
+        function updateProtocolPhaseUI() {
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`step-indicator-${i}`);
+                const badge = document.getElementById(`step-badge-${i}`);
+                if (i === currentPhase) {
+                    indicator.className = "py-2 rounded-lg border border-amber-500/20 bg-amber-500/5 text-center transition";
+                    badge.className = "text-[9px] font-black text-amber-400 block";
+                } else {
+                    indicator.className = "py-2 rounded-lg text-center transition";
+                    badge.className = "text-[9px] font-black text-slate-500 block";
+                }
+            }
+
+            const phaseContainer = document.getElementById('phase-card');
+            
+            if (currentPhase === 1) {
+                phaseContainer.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-1.5 text-red-400">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            <h4 class="font-bold text-xs">FASE 1: Vaciamiento Mental</h4>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Externaliza el peso. Escribe todo lo que está perturbando tus pensamientos o generando opresión ahora:</p>
+                        <textarea id="empty-mind-text" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-base text-slate-300 placeholder-slate-600 focus:outline-none focus:border-red-500" placeholder="Escribe lo que te preocupa sin filtros..."></textarea>
+                        <button onclick="cleanEmptyMindText()" class="w-full py-2.5 bg-red-950/80 border border-red-900/40 rounded-xl text-[11px] font-bold text-red-400 transition active:scale-95">Borrar Físicamente & Avanzar</button>
+                    </div>
+                `;
+            } else if (currentPhase === 2) {
+                phaseContainer.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-1.5 text-amber-400">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            <h4 class="font-bold text-xs">FASE 2: Absorción de Promesa Activa</h4>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Fija tu mirada en el versículo, respira profundo y decláralo pausadamente:</p>
+                        
+                        <div class="bg-slate-950 p-3.5 border border-slate-900 rounded-xl space-y-2 text-center">
+                            <h5 class="text-[9px] font-black text-amber-400 tracking-widest uppercase">FILIPENSES 4:7</h5>
+                            <blockquote class="text-xs font-semibold italic text-slate-300">"Y la paz de Dios, que sobrepasa todo entendimiento, guardará vuestros corazones y vuestros pensamientos en Cristo Jesús."</blockquote>
+                        </div>
+                    </div>
+                `;
+            } else if (currentPhase === 3) {
+                phaseContainer.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-1.5 text-cyan-400">
+                            <i data-lucide="brain" class="w-4 h-4"></i>
+                            <h4 class="font-bold text-xs">FASE 3: Reprogramación Activa</h4>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Sello de Convicción. Guarda tu afirmación diaria de reprogramación:</p>
+                        
+                        <div class="space-y-2">
+                            <input type="text" id="sealing-statement" class="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-2.5 text-base text-slate-200" value="Dentro de mí habita la paz de Dios que ninguna tormenta puede perturbar.">
+                        </div>
+
+                        <button onclick="saveSealingStatement()" class="w-full py-2.5 bg-cyan-600 active:bg-cyan-500 text-white rounded-xl text-xs font-bold transition active:scale-95">Confirmar y Guardar Activación</button>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function cleanEmptyMindText() {
+            const txt = document.getElementById('empty-mind-text').value;
+            if(!txt) return;
+            document.getElementById('empty-mind-text').style.opacity = '0.3';
+            setTimeout(() => {
+                document.getElementById('empty-mind-text').value = '';
+                document.getElementById('empty-mind-text').style.opacity = '1';
+                showSuccessToast("¡Todo el peso mental fue desintegrado!");
+                nextPhase();
+            }, 600);
+        }
+
+        function saveSealingStatement() {
+            const statement = document.getElementById('sealing-statement').value;
+            localStorage.setItem('sealing_statement', statement);
+            showSuccessToast("¡Declaración de poder grabada!");
+        }
+
+        // TAB 3: Codes Logic
+        function viewCode(codeId) {
+            currentCode = codeId;
+            document.querySelectorAll('.code-selector').forEach((btn, idx) => {
+                if (idx + 1 === codeId) {
+                    btn.className = "code-selector py-2 px-3 shrink-0 rounded-xl border border-indigo-500/50 bg-indigo-500/10 text-indigo-400 text-xs font-bold transition snap-center";
+                } else {
+                    btn.className = "code-selector py-2 px-3 shrink-0 rounded-xl border border-slate-900 bg-slate-900/30 text-slate-400 text-xs font-bold transition snap-center";
+                }
+            });
+
+            const db = CODES_DATABASE[codeId];
+            document.getElementById('code-num').innerText = db.num;
+            document.getElementById('code-title').innerText = db.title;
+            document.getElementById('code-ref').innerText = db.ref;
+            document.getElementById('code-explanation').innerText = db.explanation;
+            document.getElementById('code-affirmation').innerText = db.affirmation;
+            document.getElementById('code-practical-desc').innerText = db.practicalDesc;
+
+            const formContainer = document.getElementById('code-practical-form');
+            formContainer.innerHTML = '';
+            
+            db.inputs.forEach((inputLabel, i) => {
+                const savedVal = localStorage.getItem(`code_${codeId}_input_${i}`) || '';
+                formContainer.innerHTML += `
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold text-slate-500 uppercase">${inputLabel}</label>
+                        <input type="text" id="code-input-${i}" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-base text-slate-200 focus:outline-none focus:border-indigo-500" value="${savedVal}">
+                    </div>
+                `;
+            });
+        }
+
+        function saveCodeApplication() {
+            const db = CODES_DATABASE[currentCode];
+            db.inputs.forEach((_, i) => {
+                const val = document.getElementById(`code-input-${i}`).value;
+                localStorage.setItem(`code_${currentCode}_input_${i}`, val);
+            });
+            showSuccessToast(`¡Práctica guardada!`);
+        }
+
+        // TAB 4: Thoughts Reprogrammer
+        function dissolveLie() {
+            const lie = document.getElementById('mentira-input').value.trim();
+            if(!lie) return;
+
+            let match = REPROGRAMMING_DATABASE.find(item => lie.toLowerCase().includes(item.key));
+            if(!match) {
+                match = { truth: '"Jehová es mi pastor; nada me faltará. En lugares de delicados pastos me hará descansar..."', ref: 'Salmo 23:1' };
+            }
+
+            const inputEl = document.getElementById('mentira-input');
+            inputEl.style.transition = 'all 0.6s ease';
+            inputEl.style.transform = 'scale(0.95)';
+            inputEl.style.opacity = '0.2';
+
+            setTimeout(() => {
+                inputEl.value = '';
+                inputEl.style.transform = 'scale(1)';
+                inputEl.style.opacity = '1';
+
+                const displayBox = document.getElementById('solution-container');
+                displayBox.classList.remove('hidden');
+
+                const truthDisplay = document.getElementById('truth-display');
+                truthDisplay.innerHTML = `
+                    <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl space-y-3">
+                        <blockquote class="text-sm font-bold italic text-slate-200 leading-snug">${match.truth}</blockquote>
+                        <span class="text-[10px] font-black tracking-widest text-emerald-400 block uppercase">${match.ref}</span>
+                    </div>
+                    <button onclick="saveReprogrammedTruth('${lie.replace(/'/g, "\\'")}', '${match.truth.replace(/'/g, "\\'")}', '${match.ref}')" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition active:scale-95 flex items-center justify-center gap-1.5">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Fijar como Verdad Activa
+                    </button>
+                `;
+                lucide.createIcons();
+            }, 600);
+        }
+
+        function saveReprogrammedTruth(lie, truth, ref) {
+            let list = JSON.parse(localStorage.getItem('truths_list') || '[]');
+            if(!list.some(item => item.lie === lie)) {
+                list.unshift({ lie, truth, ref, id: Date.now() });
+                localStorage.setItem('truths_list', JSON.stringify(list));
+            }
+            renderSavedTruths();
+            showSuccessToast("¡Verdad bíblica sellada!");
+            document.getElementById('solution-container').classList.add('hidden');
+        }
+
+        function renderSavedTruths() {
+            const list = JSON.parse(localStorage.getItem('truths_list') || '[]');
+            const container = document.getElementById('truths-log');
+            if(list.length === 0) {
+                container.innerHTML = `
+                    <div class="py-4 text-center text-[10px] text-slate-500 border border-dashed border-slate-800 rounded-xl">
+                        Ninguna verdad activa fijada todavía.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = list.map(item => `
+                <div class="bg-slate-900/40 border border-slate-900 p-3.5 rounded-xl space-y-1 relative group">
+                    <button onclick="deleteTruth(${item.id})" class="absolute top-2 right-2 text-slate-600 hover:text-red-400 transition">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <div class="text-[9px] text-red-400/70 line-through font-semibold max-w-[90%] truncate">${item.lie}</div>
+                    <div class="text-xs font-bold text-emerald-400 italic leading-tight">${item.truth}</div>
+                    <div class="text-[8px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">${item.ref}</div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // TAB 5: Daily Gratitude Logic
+        function saveGratitude() {
+            const g1 = document.getElementById('gratitude-1').value.trim();
+            const g2 = document.getElementById('gratitude-2').value.trim();
+            const g3 = document.getElementById('gratitude-3').value.trim();
+
+            if (!g1 || !g2 || !g3) {
+                showToast("Completa los tres campos para registrar.", "warning");
+                return;
+            }
+
+            let list = JSON.parse(localStorage.getItem('gratitude_list') || '[]');
+            list.unshift({
+                items: [g1, g2, g3],
+                date: new Date().toLocaleDateString('es-ES'),
+                id: Date.now()
+            });
+
+            localStorage.setItem('gratitude_list', JSON.stringify(list));
+
+            document.getElementById('gratitude-1').value = '';
+            document.getElementById('gratitude-2').value = '';
+            document.getElementById('gratitude-3').value = '';
+
+            renderGratitudes();
+            showSuccessToast("¡Agradecimientos registrados!");
+        }
+
+        function renderGratitudes() {
+            const list = JSON.parse(localStorage.getItem('gratitude_list') || '[]');
+            const container = document.getElementById('gratitude-wall');
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="py-4 text-center text-[10px] text-slate-500 border border-dashed border-slate-800 rounded-xl">
+                        Aún no tienes registros de agradecimiento.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = list.map(item => `
+                <div class="bg-slate-900/40 border border-slate-900 p-3.5 rounded-xl space-y-1 relative">
+                    <button onclick="deleteGratitude(${item.id})" class="absolute top-2 right-2 text-slate-600 hover:text-red-400 transition">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <div class="text-[8px] font-black text-emerald-400 uppercase tracking-widest mb-1">${item.date}</div>
+                    <ul class="space-y-0.5 list-disc list-inside">
+                        ${item.items.map(txt => `<li class="text-xs text-slate-300 font-semibold truncate">${txt}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function deleteTruth(id) {
+            let list = JSON.parse(localStorage.getItem('truths_list') || '[]');
+            list = list.filter(item => item.id !== id);
+            localStorage.setItem('truths_list', JSON.stringify(list));
+            renderSavedTruths();
+        }
+
+        function deleteGratitude(id) {
+            let list = JSON.parse(localStorage.getItem('gratitude_list') || '[]');
+            list = list.filter(item => item.id !== id);
+            localStorage.setItem('gratitude_list', JSON.stringify(list));
+            renderGratitudes();
+        }
+
+        function clearAllData() {
+            if(confirm("¿Seguro que deseas borrar todos tus diarios y actividades guardadas en el dispositivo?")) {
+                localStorage.clear();
+                switchTab(activeTab);
+                showSuccessToast("Datos locales restablecidos.");
+            }
+        }
+
+        window.onload = function() {
+            lucide.createIcons();
+            switchTab('sos');
+        };
+    </script>
+</body>
+</html>
+
+
